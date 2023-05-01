@@ -44,6 +44,7 @@ async function mainEvent() { // the async keyword means we can make API requests
   const filterButton=document.querySelector('#filter');
   const loadDataButton= document.querySelector('#data_load');
   const generateListButton= document.querySelector('#generate');
+  const textField = document.querySelector("#shows");
   // Add a querySelector that targets your filter button here
   
   const loadAnimation=document.querySelector('#data_load_animation');
@@ -71,14 +72,28 @@ async function mainEvent() { // the async keyword means we can make API requests
       console.log(newList);
     })
 
-    generateListButton.addEventListener('click',(event)=>{
-      console.log('generate new list');
-      loadAnimation.style.display='inline-block';
+    generateListButton.addEventListener("click", (event) => {
+      console.log("generate new list");
+      loadAnimation.style.display = "inline-block";
   
-      const showList= cutShowList(currentList);
-      loadAnimation.style.display='none'
-      console.table(showList);
-      injectHTML(showList);
+      const currentList = cutShowList('storedData');
+      loadAnimation.style.display = "none";
+      console.log(currentList);
+      injectHTML(currentList);
+    });
+  
+    textField.addEventListener("input", (event) => {
+      console.log("input", event.target.value);
+      const newList = filterList(currentList, event.target.value);
+      console.log(newList);
+      injectHTML(newList);
+    });
+
+    clearDataButton.addEventListener("click",(event)=>{
+        console.log('clear browser data');
+        localStorage.clear
+        console.log('localStorage Check', localStorage.getItem("storedData"))
+    } )
   
     document.addEventListener('DOMContentLoaded', async () => mainEvent()); // the async keyword means we can make API requests
   })
