@@ -27,10 +27,23 @@
     margin: 0;
     padding: 0;
   
-    font-family: ‘Segoe UI’, Candara, ‘Bitstream Vera Sans’, ‘DejaVu Sans’, ‘Bitsream Vera Sans’, ‘Trebuchet MS’, Verdana, ‘Verdana Ref’, sans-serif;
+    font-family:
+    serif;
+    /*sans-serif*/
+    /*monospace*/
+    /*cursive*/
+    /*Verdana, Geneva, Tahoma, sans-serif;*/
+    /*Georgia, 'Times New Roman', Times, serif*/
+    /*Cambria, Cochin, Georgia, Times, 'Times New Roman', serif*/
+    /*Arial, Helvetica, sans-serif*/
+    /*'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif*/
+    /*'Times New Roman', Times, serif*/
+    /*'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif*/
+    /*'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif*/
+    /*'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif*/
     font-weight: 400;
     line-height: 1.5;
-    background-color: rgb(239, 239, 239);
+    background-color:ivory;
   }
   
   
@@ -74,10 +87,10 @@
   }
   
   .header {
-    padding-top: 1rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-bottom: 1.5rem;
+    padding-top: 0rem;
+    padding-left: 0rem;
+    padding-right: 0rem;
+    padding-bottom: 0rem;
   }
   
   
@@ -92,15 +105,15 @@
     /* this will push other blocks out of the way */
   
     /* colors */
-    background-color: #ffca8a;
-    color: #4a4a4a;
+    background-color:rgb(212, 145, 122);
+    color:#4a4a4a;
   
     /* shapes */
-    border-radius: 6px;
-    font-size: 1.5rem;
-    padding: 1.25rem;
-    margin:0; /* removing the margin on h1 tags means the header pins to the top if we move */
-  
+    border-radius: 7px;
+    font-size: 2.0rem;
+    padding: 1.5rem;
+    margin:0px; /* removing the margin on h1 tags means the header pins to the top if we move */
+
   
     /* box-shadows are fancy */
     box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 10%), 0 0 0 1px rgb(10 10 10 / 2%);
@@ -149,14 +162,14 @@
   }
   
   .left_section {
-    background-color: rgba(35, 130, 144, 0.8);
+    background-color:lightblue;
     flex: 0 1 auto;
     margin: 1rem;
     padding: 1.5rem;
   }
   
   .right_section {
-    background-color: rgba(8, 205, 235, 0.7);
+    background-color:lightblue ;
     flex: 1 2 auto;
     margin: 1rem;
     align-items: center;
@@ -164,7 +177,7 @@
   }
 
   .middle_section {
-    background-color: rgba(8, 197, 235, 0.7);
+    background-color: lightblue;
     flex: 1 2 auto;
     margin: 1rem;
     align-items: flex-end;
@@ -283,6 +296,56 @@
     line-height: 0; /* This centers a button's text! */
     border: 2px solid rgb(99,99,99); /* shorthand for how to do a border */
   }
+
+  .navigation {
+     overflow: hidden;
+     background-color:rgb(255, 206, 190);
+  }
+
+  .navigation a{
+    float: left;
+    display: block;
+    color:#4a4a4a;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+
+  .navigation a:hover{
+    background-color: beige;
+    color:#4a4a4a;
+  }
+
+  .navigation a.active{
+    background-color:#E0AFA0;
+    color:#4a4a4a;
+  }
+
+  .navigation input[type=text] {
+    float: right;
+    padding: 6px;
+    border: none;
+    margin-top: 8px;
+    margin-right: 16px;
+    font-size: 17px;
+  }
+
+  .navigation a, .topnav input[type=text] {
+    float: none;
+    display: block;
+    text-align: left;
+    width: 100%;
+    margin: 0;
+    padding: 14px;
+  }
+  .navigation input[type=text] {
+    border: 1px solid #ccc;
+  }
+
+
+
+
   
   .prev:focus,
   .next:focus {

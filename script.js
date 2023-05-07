@@ -38,7 +38,6 @@ function cutShowList(list){
 
 
 
-
 async function mainEvent() { // the async keyword means we can make API requests
   const mainForm = document.querySelector('.main_form'); // This class name needs to be set on your form before you can listen for an event on it
   const filterButton=document.querySelector('#filter');
@@ -55,7 +54,9 @@ async function mainEvent() { // the async keyword means we can make API requests
   mainForm.addEventListener('submit', async (submitEvent) => { // async has to be declared on every function that needs to "await" something
     submitEvent.preventDefault(); 
     console.log('form submission'); 
-    const results = await fetch('https://api.tvmaze.com/');
+    //api url
+    const api_url="https://api.tvmaze.com/"
+    const results = await fetch(api_url);
     currentList=await results.json();
     console.table(currentList)
     })
@@ -96,4 +97,4 @@ async function mainEvent() { // the async keyword means we can make API requests
     } )
   
     document.addEventListener('DOMContentLoaded', async () => mainEvent()); // the async keyword means we can make API requests
-  })
+  };
