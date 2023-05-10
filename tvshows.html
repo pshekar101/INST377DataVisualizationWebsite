@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prartna Final Project INST 377</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="header"><h1>Next Watch</h1></header>
+        <div class="navigation">
+          <button class="tablinks" onclick="openTab(event, 'Home')"><a href = index.html> Home</a></button>
+          <button class="tablinks" onclick="openTab(event, 'About')"><a href = About.html> About</a></button>
+          <button class="tablinks" onclick="openTab(event, 'Genres')"><a href = Genres.html> Genres</a></button>
+          <button class="tablinks" onclick="openTab(event, 'TvShows')"><a href = tvshows.html> TV Shows</a></button>
+          <button class="tablinks" onclick="openTab(event, 'Popular')"><a href = Popular.html> Popular</a></button>
+          <form action="https://api.tvmaze.com/shows">
+            <label for="shows"></label><input type="text" id="shows" placeholder="Search Show..."/>
+          </form>
+        </div>  
+        
+        <script>
+        </script>
+</body>
