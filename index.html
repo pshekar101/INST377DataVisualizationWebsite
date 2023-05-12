@@ -6,34 +6,43 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Prartna Final Project INST 377</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
-  <body>
-    <div class="wrapper">
-    <header class="header"><h1>Next Watch</h1></header>
-    <div class="navigation">
-      <button class="tablinks" onclick="openTab(event, 'Home')"><a href = index.html> Home</a></button>
-      <button class="tablinks" onclick="openTab(event, 'About')"><a href = about.html> About</a></button>
-      <button class="tablinks" onclick="openTab(event, 'Genres')"><a href = Genres.html> Genres</a></button>
-      <button class="tablinks" onclick="openTab(event, 'TvShows')"><a href = tvshows.html> TV Shows</a></button>
-      <button class="tablinks" onclick="openTab(event, 'Popular')"><a href = Popular.html> Popular</a></button>
-      <form action= "https://api.tvmaze.com/shows">
-        <label for="shows"></label><input type="text" id="shows" placeholder="Search Show..."/> 
-      </form>  
-   </div>
-      
-      <div class="viscontainer">
-      </div>
+<body>
+    <body>
+        <div class="wrapper">
+        <header class="header"><h1>NextWatch</h1></header>
+        <div class="navigation">
+            <button class="tablinks" onclick="openTab(event, 'Home')"><a href = index.html> Home</a></button>
+            <button class="tablinks" onclick="openTab(event, 'About')"><a href = About.html> About</a></button>
+       </div>
+    <header class="header"></header>
+    <div class="container">
+        <section class="left_section">
+            <h3>Search shows</h3>
+            <div class="input_box">
+                <label for="list_selector"></label>
+                <input type="text" name="list_selector" id="list_selector" placeholder="Search Show...">
+            </div>
+          <div class="buttons">
+          <button class="primary" id="data_load">Load Data</button>
+          <button class="secondary" id="generate">Generate List</button>
+          </div>
 
-      <div class="container">
-      <div class="right_section box">
-        <h2>Text Description</h2> 
-        <div class="box"><p>text description of content</p></div>
-      </div>
-    </div> 
+            <div class="lds-ellipsis" id="data_load_animation"><div></div><div></div><div></div><div></div></div>
+            <div id="shows_list">
+               <ol id="shows_list"></ol>
+            </div>
+        </section>
+        <section class="right_section">
+            <div>
+                <canvas id="myChart"></canvas>
+              </div>
+        </section>
+
     </div>
-    <script src="new.js" ></script>
+    <footer class="footer"></footer>
+    <script src="./script.js"></script>
 </body>
 </html>
-
-

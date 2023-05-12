@@ -4,97 +4,154 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
 }
 
-
 function injectHTML(list) {
-  console.log('fired injectHTML')
-  const target= document.querySelector('#show_list');
-  target.innerHTML='';
-  list.forEach((item)=> {
-    const str=`<li>${item.name}</li>`;
-    target.innerHTML+=str
-  })
+  console.log('fired injectHTML');
+  const target = document.querySelector("#show_list");
+  target.innerHTML = '';
+  list.forEach((item) => {
+    const str = `<li>${item.name}</li>`;
+    target.innerHTML += str;
+  });
 }
-  
+
 /* A quick filter that will return something based on a matching input */
 function filterList(list, query) {
-  return list.filter((item)=>{
-    const lowerCaseName= item.name.toLowerCase();
-    const lowerCaseQuery= query.toLowerCase();
-    return lowerCaseName.includes(lowerCaseQuery)
-  })
+  return list.filter((item) => {
+    const lowerCaseName = item.name.toLowerCase();
+    const lowerCaseQuery = query.toLowerCase();
+    return lowerCaseName.includes(lowerCaseQuery);
+  });
+}
+
+function cutShowList(list) {
+  console.log("fired cut list");
+  const range = [...Array(15).keys()];
+  return (newArray = range.map((item) => {
+    const index = getRandomInt(0, list.length - 1);
+    return list[index];
+  }));
+}
+
+
+function markerPlace(array, map){
+ console.log('array for markers', array);
+
+ map.eachLayer((layer) => {
+   if (layer instanceof L.Marker) {
+        layer.remove();
+      }
+   });
+
+  array.forEach((item)=>{
+      console.log('markerPlace', item);
+      const{coordinate}= item.geocoded_column_1;
+    L.marker(coordinate[1],coordinate[0]).addTo(map);
+ })
+}
+
+function initChart(target,dataSet, labels){
+    const chart= new Chart(target, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: '#ratings',
+        data: dataSet,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+  return chart;
+}
+
+
+async function mainEvent() {
+  const loadDataButton = document.querySelector("#data_load");
+  const generateListButton = document.querySelector("#generate");
+  const textField = document.querySelector("#list_selector");
+  const chart= document.querySelector('#myChart');
  
+
+  const loadAnimation = document.querySelector("#data_load_animation");
+  loadAnimation.style.display = "none";
+  generateListButton.classList.add("hidden");
+
+  
+
+  const storedData=localStorage.getItem('storedData');
+  let parsedData=JSON.parse(storedData);
+  if(parsedData.length>0){
+    generateListButton.classList.remove("hidden");
+  }
+  
+  let storedList = []; // this is "scoped" to the main event function
+  ;
+
+  const dataForChart=parsedData.reduce((col, item)=>{
+   if (!col.label[item.genres]){
+      col[item.genres]=1
+    }
+    else{
+      col[item.genres]+=1
+     }
+   return col;
+ }, {})
+
+  const dataSet= Object.values(dataForChart);
+  const labels= Object.keys(dataForChart);
+  console.log(dataForChart)
+  const newChart=initChart(chart, dataSet, labels);
+  /* We  need to listen to an "event" to have something happen in our page - here we're listening for a "submit" */
+  loadDataButton.addEventListener("click", async (submitEvent) => {
+    // async has to be declared on every function that needs to "await" something
+    console.log("Loading data");
+    loadAnimation.style.display = "inline-block";
+
+    const results = await fetch(
+      "https://api.tvmaze.com/shows#9ZR2v5r0oEoXqWubVRNcX91IjkO987Fg");
+      const storedList = await results.json();
+      localStorage.setItem('storedData',JSON.stringify(storedList));
+      parsedData=storedList;
+      if(parsedData?.length>0){
+      generateListButton.classList.remove("hidden");
+    }
+
+    //loadAnimation.style.display = "none";
+    //console.table(storedList);
+  });
+
+ 
+
+  generateListButton.addEventListener("click", (event) => {
+    console.log("generate new list");
+    storedList = cutShowList(parsedData);
+    console.log(storedList);
+    injectHTML(storedList);
+    
+
+  });
+
+  textField.addEventListener("input", (event) => {
+    console.log("input", event.target.value);
+    const newList = filterList(storedList, event.target.value);
+    console.log(newList);
+    injectHTML(newList);
+  });
+
+  //clearDataButton.addEventListener("click", (event)=>{
+   // console.log('clear browser data');
+   // localStorage.clear();
+    //console.log('localStorage Check', localStorage.getItem("storedData"))
+  //})
+
+
 }
 
-function cutShowList(list){
-  console.log('fired cut list');
-  const range=[...Array(15).keys()];
-  return newArray= range.map((item)=>{
-    const index= getRandomInt(0, list.length -1);
-    return list[index]
-  })
-}
-
-
-
-
-
-async function mainEvent() { // the async keyword means we can make API requests
-  const mainForm = document.querySelector('.main_form'); // This class name needs to be set on your form before you can listen for an event on it
-  const filterButton=document.querySelector('#filter');
-  const loadDataButton= document.querySelector('#data_load');
-  const generateListButton= document.querySelector('#generate');
-  const textField = document.querySelector("#shows");
-  // Add a querySelector that targets your filter button here
-  
-  const loadAnimation=document.querySelector('#data_load_animation');
-  loadAnimation.style.display='none';
-  let currentList = []; // this is "scoped" to the main event function
-  
-  /* We need to listen to an "event" to have something happen in our page - here we're listening for a "submit" */
-  mainForm.addEventListener('submit', async (submitEvent) => { // async has to be declared on every function that needs to "await" something
-    submitEvent.preventDefault(); 
-    console.log('form submission'); 
-    //api url
-    const api_url="https://api.tvmaze.com/"
-    const results = await fetch(api_url);
-    currentList=await results.json();
-    console.table(currentList)
-    })
-
-    filterButton.addEventListener('click', (event)=>{
-      console.log('clicked FilterButton');
-  
-      const formData= new FormData(mainForm);
-      const formProps=Object.fromEntries(formData);
-  
-      console.log(formProps);
-      const newList=filterList(currentList, formProps.shows)
-  
-      console.log(newList);
-    })
-
-    generateListButton.addEventListener("click", (event) => {
-      console.log("generate new list");
-      loadAnimation.style.display = "inline-block";
-  
-      const currentList = cutShowList('storedData');
-      loadAnimation.style.display = "none";
-      console.log(currentList);
-      injectHTML(currentList);
-    });
-  
-    textField.addEventListener("input", (event) => {
-      console.log("input", event.target.value);
-      const newList = filterList(currentList, event.target.value);
-      console.log(newList);
-      injectHTML(newList);
-    });
-
-    clearDataButton.addEventListener("click",(event)=>{
-        console.log('clear browser data');
-        localStorage.clear
-        console.log('localStorage Check', localStorage.getItem("storedData"))
-    } )
-  
-    document.addEventListener('DOMContentLoaded', async () => mainEvent()); // the async keyword means we can make API requests
-  };
+document.addEventListener("DOMContentLoaded", async () => mainEvent()); // the async keyword means we can make API requests
